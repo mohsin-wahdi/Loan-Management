@@ -9,8 +9,21 @@ Production-ready full-stack Loan Management System with borrower portal, role-ba
 - Database: MongoDB, Mongoose
 - Authentication: JWT + bcrypt
 
-## Features Delivered
 
+Frontend starts on `http://localhost:3000`.
+
+## Seeded Users
+
+Password for all seeded users: `Password@123`
+
+- Admin: `admin@loan.local`
+- Sales: `sales@loan.local`
+- Sanction: `sanction@loan.local`
+- Disbursement: `disburse@loan.local`
+- Collection: `collection@loan.local`
+- Borrower: `borrower@loan.local`
+  
+## Features Delivered
 - Borrower signup/login with hashed passwords and JWT
 - Protected API routes and frontend auth guard
 - Multi-step style borrower application (personal details + salary slip + loan config)
@@ -35,6 +48,7 @@ Production-ready full-stack Loan Management System with borrower portal, role-ba
 - RBAC enforced in backend middleware + role-aware frontend UI
 - Simple AI risk summary generated at application time (without replacing business rules)
 - Seed script for predefined users
+- 
 
 ## Project Structure
 
@@ -84,9 +98,6 @@ Backend starts on `http://localhost:5000`.
 Add Cloudinary keys in `backend/.env`:
 
 ```env
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
 ```
 
 ### 3) Frontend Setup
@@ -98,18 +109,6 @@ npm install
 npm run dev
 ```
 
-Frontend starts on `http://localhost:3000`.
-
-## Seeded Users
-
-Password for all seeded users: `Password@123`
-
-- Admin: `admin@loan.local`
-- Sales: `sales@loan.local`
-- Sanction: `sanction@loan.local`
-- Disbursement: `disburse@loan.local`
-- Collection: `collection@loan.local`
-- Borrower: `borrower@loan.local`
 
 ## Key API Endpoints
 
@@ -143,3 +142,4 @@ Password for all seeded users: `Password@123`
 - Unauthorized (insufficient role): `403`
 - Upload files are served from `/uploads`
 - AI summary is intentionally minimal and does not override hard business rules
+
