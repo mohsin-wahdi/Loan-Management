@@ -5,9 +5,9 @@ const db_1 = require("./config/db");
 const env_1 = require("./config/env");
 const start = async () => {
     await (0, db_1.connectDb)();
-    app_1.app.listen(env_1.env.port, () => {
-        // eslint-disable-next-line no-console
-        console.log(`Backend running on http://localhost:${env_1.env.port}`);
+    const PORT = process.env.PORT || env_1.env.port || 5000;
+    app_1.app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
     });
 };
 start();

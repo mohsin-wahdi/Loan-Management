@@ -6,5 +6,4 @@ const authMiddleware_1 = require("../middleware/authMiddleware");
 const router = (0, express_1.Router)();
 router.use(authMiddleware_1.authMiddleware);
 router.get("/my", activityController_1.myActivities);
-router.get("/loan-history", activityController_1.loanActivities);
 exports.default = router;

@@ -10,7 +10,6 @@ const path_1 = __importDefault(require("path"));
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
 const loanRoutes_1 = __importDefault(require("./routes/loanRoutes"));
 const activityRoutes_1 = __importDefault(require("./routes/activityRoutes"));
-const chatRoutes_1 = __importDefault(require("./routes/chatRoutes"));
 const errorHandler_1 = require("./middleware/errorHandler");
 const env_1 = require("./config/env");
 exports.app = (0, express_1.default)();
@@ -25,5 +24,4 @@ exports.app.get("/health", (_req, res) => {
 exports.app.use("/api/auth", authRoutes_1.default);
 exports.app.use("/api/loans", loanRoutes_1.default);
 exports.app.use("/api/activities", activityRoutes_1.default);
-exports.app.use("/api/chat", chatRoutes_1.default);
 exports.app.use(errorHandler_1.errorHandler);

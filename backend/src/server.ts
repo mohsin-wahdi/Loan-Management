@@ -4,10 +4,14 @@ import { env } from "./config/env";
 
 const start = async () => {
   await connectDb();
-  app.listen(env.port, () => {
-    // eslint-disable-next-line no-console
-    console.log(`Backend running on http://localhost:${env.port}`);
+
+  const PORT = process.env.PORT || env.port || 5000;
+
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
   });
 };
 
 start();
+
+

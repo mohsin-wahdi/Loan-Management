@@ -90,6 +90,7 @@ const decideLoan = async (loanId, approve, reason) => {
     loan.status = approve ? constants_1.LOAN_STATUS.SANCTIONED : constants_1.LOAN_STATUS.REJECTED;
     loan.rejectionReason = approve ? undefined : reason;
     await loan.save();
+    await (0, activityService_1.createActivity)(loan.user.toString(), approve ? "LOAN_SANCTIONED" : "LOAN_REJECTED", approve ? "Loan sanctioned by sanction team" : `Loan rejected: ${reason}`);
     return loan;
 };
 exports.decideLoan = decideLoan;
@@ -101,6 +102,7 @@ const disburseLoan = async (loanId) => {
         throw new errors_1.AppError("Only SANCTIONED loans can be disbursed");
     loan.status = constants_1.LOAN_STATUS.DISBURSED;
     await loan.save();
+    await (0, activityService_1.createActivity)(loan.user.toString(), "LOAN_DISBURSED", "Loan marked as disbursed");
     return loan;
 };
 exports.disburseLoan = disburseLoan;
@@ -128,8 +130,10 @@ const addPayment = async (loanId, payload) => {
     loan.outstandingBalance = Number((loan.totalRepayment - projectedTotal).toFixed(2));
     if (loan.totalPaid === loan.totalRepayment) {
         loan.status = constants_1.LOAN_STATUS.CLOSED;
+        await (0, activityService_1.createActivity)(loan.user.toString(), "LOAN_CLOSED", "Loan auto-closed after full repayment");
     }
     await loan.save();
+    await (0, activityService_1.createActivity)(loan.user.toString(), "PAYMENT_ADDED", `Payment of ${payload.amount} received with UTR ${payload.utr.toUpperCase()}`);
     return loan;
 };
 exports.addPayment = addPayment;

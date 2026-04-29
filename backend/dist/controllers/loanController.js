@@ -38,7 +38,6 @@ const constants_1 = require("../utils/constants");
 const loanService = __importStar(require("../services/loanService"));
 const loanValidators_1 = require("../validators/loanValidators");
 const errors_1 = require("../utils/errors");
-const activityService_1 = require("../services/activityService");
 const applyLoan = async (req, res, next) => {
     try {
         if (!req.user)
@@ -52,7 +51,6 @@ const applyLoan = async (req, res, next) => {
             tenureDays: Number(req.body.tenureDays)
         });
         const loan = await loanService.applyLoan(req.user.userId, payload, req.file);
-        await (0, activityService_1.createActivity)(req.user.userId, "LOAN_APPLIED", `Applied loan for ${payload.amount} and tenure ${payload.tenureDays} days`);
         res.status(201).json(loan);
     }
     catch (error) {
@@ -93,11 +91,8 @@ const getAppliedLoans = async (_req, res, next) => {
 exports.getAppliedLoans = getAppliedLoans;
 const sanctionLoan = async (req, res, next) => {
     try {
-        if (!req.user)
-            throw new errors_1.AppError("Not authenticated", 401);
         const data = loanValidators_1.decisionSchema.parse(req.body ?? {});
         const loan = await loanService.decideLoan(String(req.params.id), true, data.reason);
-        await (0, activityService_1.createActivity)(req.user.userId, "LOAN_SANCTIONED", `Sanctioned loan ${String(req.params.id)}`);
         res.json(loan);
     }
     catch (error) {
@@ -107,11 +102,8 @@ const sanctionLoan = async (req, res, next) => {
 exports.sanctionLoan = sanctionLoan;
 const rejectLoan = async (req, res, next) => {
     try {
-        if (!req.user)
-            throw new errors_1.AppError("Not authenticated", 401);
         const data = loanValidators_1.decisionSchema.parse(req.body);
         const loan = await loanService.decideLoan(String(req.params.id), false, data.reason);
-        await (0, activityService_1.createActivity)(req.user.userId, "LOAN_REJECTED", `Rejected loan ${String(req.params.id)} with reason: ${data.reason}`);
         res.json(loan);
     }
     catch (error) {
@@ -130,11 +122,7 @@ const getSanctionedLoans = async (_req, res, next) => {
 exports.getSanctionedLoans = getSanctionedLoans;
 const disburseLoan = async (req, res, next) => {
     try {
-        if (!req.user)
-            throw new errors_1.AppError("Not authenticated", 401);
-        const loan = await loanService.disburseLoan(String(req.params.id));
-        await (0, activityService_1.createActivity)(req.user.userId, "LOAN_DISBURSED", `Disbursed loan ${String(req.params.id)}`);
-        res.json(loan);
+        res.json(await loanService.disburseLoan(String(req.params.id)));
     }
     catch (error) {
         next(error);
@@ -152,17 +140,11 @@ const getDisbursedLoans = async (_req, res, next) => {
 exports.getDisbursedLoans = getDisbursedLoans;
 const addPayment = async (req, res, next) => {
     try {
-        if (!req.user)
-            throw new errors_1.AppError("Not authenticated", 401);
         const payload = loanValidators_1.paymentSchema.parse({
             ...req.body,
             amount: Number(req.body.amount)
         });
         const loan = await loanService.addPayment(String(req.params.id), payload);
-        await (0, activityService_1.createActivity)(req.user.userId, "PAYMENT_ADDED", `Added payment ${payload.amount} with UTR ${payload.utr.toUpperCase()} for loan ${String(req.params.id)}`);
-        if (loan.status === constants_1.LOAN_STATUS.CLOSED) {
-            await (0, activityService_1.createActivity)(req.user.userId, "LOAN_CLOSED", `Closed loan ${String(req.params.id)}`);
-        }
         res.status(201).json(loan);
     }
     catch (error) {
