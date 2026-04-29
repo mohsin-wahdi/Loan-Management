@@ -10,6 +10,14 @@ const start = async () => {
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
+
+  app.get("/", (req, res) => {
+  res.send("Backend is running 🚀");
+});
+
+app.get("/api/test", (req, res) => {
+  res.json({ message: "Backend Working ✅" });
+});
 };
 app.get("/", (req, res) => {
   res.send("Backend is running 🚀");
