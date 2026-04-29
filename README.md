@@ -2,6 +2,141 @@
 
 Production-ready full-stack Loan Management System with borrower portal, role-based operations dashboard, strict backend business rules, and full lifecycle flow from apply to closure.
 
+Here’s your **Loan Management System flow.
+
+##  1. Application Start
+
+* Frontend runs on: [ https://loan-management-hedl-git-main-mohsins-projects-b5a356b4.vercel.app}
+
+User interacts with frontend → backend APIs → JWT token is generated and used for authentication.
+---
+
+##  2. Authentication (Signup / Login)
+
+ New user:
+
+* Go to `/signup`
+* Create account
+* Redirected to dashboard
+
+ Existing user:
+
+* Go to `/login`
+* Enter email & password
+* Backend verifies and returns JWT + role
+
+---
+
+##  3. Borrower Applies for Loan (Main Flow)
+
+ Login as **Borrower**
+
+* `borrower@loan.local / Password@123`
+
+➡ Fill loan application form:
+
+```
+Name: Rahul Sharma
+PAN: 123654789
+DOB: 1994-06-15
+Salary: 60000
+Employment: Salaried
+Loan Amount: 200000
+Tenure: 180 days
+Upload: Salary Slip
+```
+
+ Backend validations:
+
+* Age must be 23–50
+* Salary ≥ 25000
+* Valid PAN
+* Employment not “Unemployed”
+
+ If valid:
+
+* Loan created with status = **APPLIED**
+* Interest & total repayment calculated
+* Risk summary generated
+
+---
+
+##  4. Sanction (Approval / Rejection)
+
+ Login as **Sanction**
+
+* `sanction@loan.local`
+
+➡ Dashboard shows all **APPLIED loans**
+
+ Actions:
+
+* Approve → Status = **SANCTIONED**
+* Reject → Status = **REJECTED** (reason required)
+
+---
+
+##  5. Disbursement (Release Money)
+
+ Login as **Disbursement**
+
+* `disburse@loan.local`
+
+➡ Dashboard shows **SANCTIONED loans**
+
+ Action:
+
+* Click “Disburse”
+
+ Status becomes → **DISBURSED**
+
+---
+
+##  6. Collection (Payment Handling)
+
+ Login as **Collection**
+
+* `collection@loan.local`
+
+➡ Dashboard shows **DISBURSED loans**
+
+ Add payments:
+
+```
+UTR: UTR001 → Amount: 100000
+UTR: UTR002 → Remaining amount
+```
+
+ System:
+
+* Updates total paid
+* Reduces outstanding
+
+ When fully paid:
+
+* Status → **CLOSED (automatic)**
+
+---
+
+#  Loan Lifecycle
+
+```
+APPLIED → SANCTIONED → DISBURSED → CLOSED
+           ↘
+           REJECTED
+```
+
+---
+
+#  Full Demo Flow (Quick)
+
+```
+1. Borrower → Apply Loan
+2. Sanction → Approve
+3. Disbursement → Disburse
+4. Collection → Add Payment → CLOSED
+```
+
 ## Tech Stack
 
 - Frontend: Next.js (App Router), TypeScript, Tailwind CSS
