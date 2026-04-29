@@ -22,6 +22,25 @@ Password for all seeded users: `Password@123`
 - Disbursement: `disburse@loan.local`
 - Collection: `collection@loan.local`
 - Borrower: `borrower@loan.local`
+
+
+## Deployment Architecture
+
+This project is fully deployed and production-ready with the following setup:
+
+- Frontend: Deployed on **Vercel**
+  - Live URL: https://loan-management-hedl-git-main-mohsins-projects-b5a356b4.vercel.app
+
+- Backend: Deployed on **Render**
+  - Live URL: https://loan-management-ty99.onrender.com
+
+- Database: **MongoDB Atlas (Cloud Database)**
+  - All user, loan, and transaction data is stored securely in MongoDB Atlas cluster.
+
+- File Storage: **Cloudinary**
+  - Salary slips and uploaded documents (PDF/JPG/PNG) are stored in Cloudinary cloud storage.
+  - Files are served via secure CDN URLs.
+ 
   
 ## Features Delivered
 - Borrower signup/login with hashed passwords and JWT
