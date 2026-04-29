@@ -13,7 +13,7 @@ Production-ready full-stack Loan Management System with borrower portal, role-ba
 Frontend starts on `http://localhost:3000`.
 
 ## Seeded Users
-
+ --- run command = npm run seed
 Password for all seeded users: `Password@123`
 
 - Admin: `admin@loan.local`
